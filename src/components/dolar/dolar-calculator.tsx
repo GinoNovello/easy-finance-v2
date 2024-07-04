@@ -4,8 +4,7 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { cn } from "@/src/lib/utils";
 import { ArrowRightLeft } from "lucide-react";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Props {
   dolarValues: DolarResponse[];
@@ -17,38 +16,70 @@ export default function DolarCalculator({
   country = "AR",
 }: Props) {
   const [dolarFirst, setDolarFirst] = useState(true);
-  const [dolarInfo, setDolarInfo] = useState<DolarResponse>();
-  const [comboValues, setComboValues] = useState<DolarResponse[] | undefined>(
-    dolarValues,
-  );
 
-  useEffect(() => {
-    if (!dolarValues) return;
+  const [valor, setValor] = useState<number | string>("");
+  const [result, setResult] = useState<number | string>("");
 
-    if (dolarValues.length > 1) {
-      setComboValues(dolarValues);
-    } else {
-      setComboValues(undefined);
-      setDolarInfo(dolarValues[0]);
+  const handleExchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValor(value);
+
+    if (dolarValues) {
+      const numericValue = parseFloat(value);
+      const dolarValueFiltered =
+        dolarValues?.length > 1 ? dolarValues[1].venta : dolarValues[0].venta;
+      if (!isNaN(numericValue)) {
+        if (dolarFirst) {
+          setResult((numericValue * dolarValueFiltered).toFixed(2));
+        } else {
+          setResult((numericValue / dolarValueFiltered).toFixed(2));
+        }
+      } else {
+        setResult("");
+      }
+      console.log(
+        "resultado2",
+        ((numericValue * 1000) / dolarValueFiltered).toFixed(2),
+      );
     }
-  }, [dolarValues]);
+  };
+  const handleSwap = () => {
+    setDolarFirst(!dolarFirst);
+    // Swap values
+    setValor(result);
+    setResult(valor);
+  };
 
   return (
-    <section className="w-full flex flex-col items-center border rounded-md p-10">
+    <section className="flex flex-col items-center border rounded-md p-10 absolute">
       <h2>Calcular</h2>
-      <div className="flex items-end h-fit gap-4">
-        <div className={cn(" flex flex-col gap-2 order-1")}>
+      <div className="flex w-full items-end h-fit gap-4 relative">
+        <div className={cn("flex flex-col gap-2 order-1 text-green-300")}>
           <Label className="uppercase">{dolarFirst ? "USD" : country}</Label>
-          <Input />
+          <Input
+            id="usd"
+            type="text"
+            value={dolarFirst ? valor : result}
+            onChange={handleExchange}
+          />
         </div>
-        <div className={cn(" flex flex-col gap-2 order-3")}>
-          <Label className="uppercase">{dolarFirst ? country : "USD"}</Label>
-          <Input />
+        <div className={cn("flex flex-col gap-2 order-3")}>
+          <Label className="uppercase text-green-100">
+            {dolarFirst ? country : "USD"}
+          </Label>
+          <Input
+            size={12}
+            type="text"
+            disabled
+            value={dolarFirst ? result : valor}
+            onChange={handleExchange}
+          />
         </div>
         <Button
+          disabled
           variant="ghost"
           className="order-2"
-          onClick={() => setDolarFirst(!dolarFirst)}
+          onClick={handleSwap}
         >
           <ArrowRightLeft />
         </Button>

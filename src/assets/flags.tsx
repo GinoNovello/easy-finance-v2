@@ -2,7 +2,7 @@ function ArgentinaLogo() {
   return (
     <svg
       className="size-4 sm:size-5"
-      enable-background="new 0 0 512 512"
+      enableBackground="new 0 0 512 512"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -45,7 +45,7 @@ function ChileLogo() {
   return (
     <svg
       className="size-4 sm:size-5"
-      enable-background="new 0 0 512 512"
+      enableBackground="new 0 0 512 512"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -94,7 +94,7 @@ function MexicoLogo() {
   return (
     <svg
       className="size-4 sm:size-5"
-      enable-background="new 0 0 512 512"
+      enableBackground="new 0 0 512 512"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -110,10 +110,7 @@ function MexicoLogo() {
         fill="#d80027"
         data-darkreader-inline-fill="#6a0d1d"
       ></path>
-      <g
-        fill="#6da544"
-        data-darkreader-inline-fill=""
-      >
+      <g fill="#6da544" data-darkreader-inline-fill="">
         <path d="m0 256c0 101.494 59.065 189.19 144.696 230.598v-461.196c-85.631 41.408-144.696 129.104-144.696 230.598z"></path>
         <path d="m189.217 256c0 36.883 29.9 66.783 66.783 66.783s66.783-29.9 66.783-66.783v-22.261h-133.566z"></path>
       </g>
@@ -144,7 +141,7 @@ function UruguayLogo() {
   return (
     <svg
       className="size-4 sm:size-5"
-      enable-background="new 0 0 512 512"
+      enableBackground="new 0 0 512 512"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -161,10 +158,7 @@ function UruguayLogo() {
         fill="#338af3"
         data-darkreader-inline-fill="#2f6391"
       ></path>
-      <g
-        fill="#338af3"
-        data-darkreader-inline-fill="#123a69"
-      >
+      <g fill="#338af3" data-darkreader-inline-fill="#123a69">
         <path d="m96.643 456.348h318.713c23.363-18.608 43.399-41.21 59.069-66.783h-436.851c15.671 25.572 35.707 48.175 59.069 66.783z"></path>
         <path d="m256 0v55.652h159.357c-43.73-34.828-99.108-55.652-159.357-55.652z"></path>
       </g>
@@ -205,9 +199,4 @@ function UruguayLogo() {
   );
 }
 
-export {
-  ArgentinaLogo,
-  ChileLogo,
-  MexicoLogo, 
-  UruguayLogo,
-}
+export { ArgentinaLogo, ChileLogo, MexicoLogo, UruguayLogo };
