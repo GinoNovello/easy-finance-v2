@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Footer } from "../components/footer";
+// import { Footer } from "../components/footer";
 import { cn } from "../lib/utils";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,17 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark ">
-      <body
-        suppressHydrationWarning={true}
-        className={cn(
-          "overflow-x-hidden min-h-screen min-w-screen",
-          inter.className,
-        )}
-      >
-        {children}
-        <Footer />
-      </body>
+    <html lang="en">
+      <Providers>
+        <body
+          suppressHydrationWarning={true}
+          className={cn(
+            "overflow-x-hidden min-h-screen min-w-screen",
+            inter.className,
+          )}
+        >
+          {children}
+          {/* <Footer /> */}
+        </body>
+      </Providers>
     </html>
   );
 }
