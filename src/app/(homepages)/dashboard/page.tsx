@@ -13,7 +13,7 @@ export default async function DashboardPage({ searchParams }: NextSSRParams) {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold text-red-800">
+      <h1 className="text-3xl font-semibold dark:text-gray-200 text-black">
         {sheetName?.value}
       </h1>
       <div className="container mx-auto py-10 gap-10 flex flex-col justify-center">

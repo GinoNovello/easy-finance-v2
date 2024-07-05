@@ -48,7 +48,7 @@ export function MonthProgress() {
         <HoverCardTrigger asChild>
           <Progress
             value={progress}
-            className={`${progress > 50 ? "bg-red-300 w-[60%]" : "bg-green-200 w-[60%]"} `}
+            className={`${progress > 50 ? "bg-destructive w-[60%]" : "bg-success w-[60%]"} `}
           />
         </HoverCardTrigger>
       </HoverCard>
