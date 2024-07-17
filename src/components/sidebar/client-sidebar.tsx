@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { Sidebar } from "./sidebar";
 import { SidebarItem } from "./sidebaritems";
 import Link from "next/link";
-import { HomeIcon, UserIcon, SettingsIcon } from "lucide-react";
+import { HomeIcon, SettingsIcon, BarChart4Icon } from "lucide-react";
 
 export function ClientSidebar() {
   const pathname = usePathname();
@@ -17,11 +17,13 @@ export function ClientSidebar() {
           active={pathname === "/dashboard"}
         />
       </Link>
-      <SidebarItem
-        icon={<UserIcon />}
-        text="Profile"
-        active={pathname === "/profile"}
-      />
+      <Link href="/metrics">
+        <SidebarItem
+          icon={<BarChart4Icon />}
+          text="Metrics"
+          active={pathname === "/metrics"}
+        />
+      </Link>
       <Link href="/settings">
         <SidebarItem
           icon={<SettingsIcon />}

@@ -5,25 +5,20 @@ const googleApi = {
         const response = await fetch(name, { next: { revalidate: 6 } });
         const text = await response.text();
 
-        // Verifica si el texto está en el formato esperado
+        // console.log("Raw text from Google Sheets:", text);
+
+        // Check if text is in expected format
         if (!text.includes("\t")) {
-          console.error("Data does not seem to be tab-separated.");
+          // console.error("Data does not seem to be tab-separated.");
           return [];
         }
 
         const rows = text.trim().split("\n").slice(1);
+        // console.log("Rows after splitting:", rows);
 
-        const result = rows.map((row): GoogleSheetResponse | null => {
-          const columns = row.split("\t");
-
-          if (columns.length < 6) {
-            console.error("No tenes las columnas necesarias:", row);
-            return null;
-          }
-
-          const [fecha, gasto, tipo, , fechaIngr, ingreso, tipoIngr] = columns;
-          // console.log(fechaIngr, ingreso, tipoIngr);
-
+        return rows.map((row) => {
+          const [fecha, gasto, tipo, skip, fechaIngr, ingreso, tipoIngr] =
+            row.split("\t");
           return {
             fecha,
             gasto: parseFloat(gasto),
@@ -33,11 +28,6 @@ const googleApi = {
             tipoIngr,
           };
         });
-
-        // Filtrar filas nulas y retornar
-        return result.filter(
-          (item): item is GoogleSheetResponse => item !== null,
-        );
       } catch (error) {
         console.error("Error fetching data from Google Sheets:", error);
         return [];
