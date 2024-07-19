@@ -1,7 +1,8 @@
-import { ExpensesChart } from "@/src/components/charts/expenses-bar-chart";
+// import { ExpensesChart } from "@/src/components/charts/expenses-bar-chart";
 import { cookies } from "next/headers";
 import googleApi from "../../api/googlesheet";
-import { IncomeChart } from "@/src/components/charts/income-bar-chart";
+import { Charts } from "@/src/components/charts/income-bar-chart";
+import { InteractiveChart } from "@/src/components/charts/interactive-chart";
 export default async function MetricsPage() {
   const cookie = cookies();
   const sheetUrl = cookie.get("sheetUrl");
@@ -27,8 +28,8 @@ export default async function MetricsPage() {
         <h1 className="text-2xl font-semibold">Metrics</h1>
         <p className="text-gray-500">Here you can see your metrics</p>
       </div>
-      <ExpensesChart data={expensesData} />
-      <IncomeChart data={incomeData} />
+      <Charts expensesData={expensesData} incomeData={incomeData} />
+      <InteractiveChart data={data} />
     </div>
   );
 }

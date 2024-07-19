@@ -11,29 +11,29 @@ import {
 } from "../ui/chart";
 
 interface Props {
-  data: any[];
+  incomeData: IncomeData[];
+  expensesData: ExpenseData[];
 }
 
-export function IncomeChart({ data }: Props) {
-  console.log("data", data);
+export function Charts({ incomeData, expensesData }: Props) {
+  const IncomeByType = incomeData.reduce(
+    (acc, curr) => {
+      const tipoIngr = curr.tipoIngr.trim();
+      if (!acc[tipoIngr]) {
+        acc[tipoIngr] = { tipoIngr, ingreso: 0 };
+      }
+      acc[tipoIngr].ingreso += curr.ingreso;
+      return acc;
+    },
+    {} as Record<string, { tipoIngr: string; ingreso: number }>,
+  );
 
-  const IncomeByType = data.reduce((acc, curr) => {
-    const tipoIngr = curr.tipoIngr.trim();
-    if (!acc[tipoIngr]) {
-      acc[tipoIngr] = { tipoIngr, ingreso: 0 };
-    }
-    acc[tipoIngr].ingreso += curr.ingreso;
-    return acc;
-  }, {});
+  const dataIncome = Object.values(IncomeByType);
 
-  console.log(IncomeByType);
-
-  const dataFiltered = Object.values(IncomeByType);
-
-  const chartConfig = {
+  const chartIncomeConfig = {
     ingreso: {
       label: "Ingreso",
-      color: "hsl(var(--chart-5))",
+      color: "hsl(var(--chart-1))",
     },
     tipoIngr: {
       label: "Tipo",
@@ -41,12 +41,52 @@ export function IncomeChart({ data }: Props) {
     },
   } satisfies ChartConfig;
 
-  console.log("dataFiltered", dataFiltered);
+  const ExpensesByType = expensesData.reduce(
+    (acc, curr) => {
+      const tipo = curr.tipo.trim();
+      if (!acc[tipo]) {
+        acc[tipo] = { tipo, gasto: 0 };
+      }
+      acc[tipo].gasto += curr.gasto;
+      return acc;
+    },
+    {} as Record<string, { tipo: string; gasto: number }>,
+  );
+
+  console.log(ExpensesByType);
+
+  const dataByExpenses = Object.values(ExpensesByType);
+
+  const chartExpenseConfig = {
+    gasto: {
+      label: "Gasto",
+      color: "hsl(var(--chart-5))",
+    },
+    tipo: {
+      label: "Tipo",
+      color: "#60a5fa",
+    },
+  } satisfies ChartConfig;
 
   return (
-    <div className="flex flex-col">
-      <ChartContainer config={chartConfig} className="flex w-96">
-        <BarChart accessibilityLayer data={dataFiltered}>
+    <div className="flex gap-4">
+      <ChartContainer config={chartExpenseConfig} className="flex w-96">
+        <BarChart accessibilityLayer data={dataByExpenses}>
+          <XAxis
+            dataKey="tipo"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => value.slice(0, 3)}
+          />
+          <YAxis />
+          <ChartLegend content={<ChartLegendContent />} />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Bar dataKey="gasto" fill="var(--color-gasto)" radius={4} />
+        </BarChart>
+      </ChartContainer>
+      <ChartContainer config={chartIncomeConfig} className="flex w-96">
+        <BarChart accessibilityLayer data={dataIncome}>
           <XAxis
             dataKey="tipoIngr"
             tickLine={false}
