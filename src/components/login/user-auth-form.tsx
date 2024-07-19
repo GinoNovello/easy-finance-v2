@@ -41,7 +41,7 @@ export function UserAuthForm() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <span className="text-2xl pt-12 font-bold text-primary"> LOGIN</span>
+      <span className="text-2xl pt-12 font-bold text-primary">LOGIN</span>
       <div
         className={cn(
           "grid gap-6 border border-secondary rounded-lg p-5 pt-7 h-[380px] w-[360px]",
