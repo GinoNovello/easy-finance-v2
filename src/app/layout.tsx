@@ -19,18 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Providers>
-        <body
-          suppressHydrationWarning={true}
-          className={cn(
-            "overflow-x-hidden min-h-screen min-w-screen",
-            inter.className,
-          )}
-        >
+      <body
+        suppressHydrationWarning={true}
+        className={cn(
+          "overflow-x-hidden min-h-screen min-w-screen",
+          inter.className,
+        )}
+      >
+        <Providers>
           {children}
           {/* <Footer /> */}
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

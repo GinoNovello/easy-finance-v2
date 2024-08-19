@@ -37,10 +37,6 @@ export default function DolarCalculator({
       } else {
         setResult("");
       }
-      console.log(
-        "resultado2",
-        ((numericValue * 1000) / dolarValueFiltered).toFixed(2),
-      );
     }
   };
   const handleSwap = () => {

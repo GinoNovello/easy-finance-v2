@@ -53,8 +53,6 @@ export function Charts({ incomeData, expensesData }: Props) {
     {} as Record<string, { tipo: string; gasto: number }>,
   );
 
-  console.log(ExpensesByType);
-
   const dataByExpenses = Object.values(ExpensesByType);
 
   const chartExpenseConfig = {
