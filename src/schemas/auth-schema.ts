@@ -6,13 +6,19 @@ export const authSchema = z.object({
     (url) => {
       try {
         const parsedUrl = new URL(url);
-        return parsedUrl.hostname === "docs.google.com";
+        const isGoogleDocs = parsedUrl.hostname === "docs.google.com";
+        const isSpreadsheetUrl =
+          /\/spreadsheets\/d\/e\/2PACX-[\w-]+\/pub\?output=tsv$/.test(
+            parsedUrl.pathname + parsedUrl.search,
+          );
+        return isGoogleDocs && isSpreadsheetUrl;
       } catch (error) {
         return false;
       }
     },
     {
-      message: "Debe ser una URL válida de docs.google.com",
+      message:
+        "Debe ser una URL válida de docs.google.com con el formato especificado",
     },
   ),
 });

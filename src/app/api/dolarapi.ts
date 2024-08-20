@@ -15,7 +15,7 @@ export const dynamicDolarData = async (country: string) => {
 
 export const dolarOficialData = async (): Promise<DolarResponse> => {
   const res = await fetch(`${BASE_URL}/oficial`, {
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (!res.ok) {
     throw new Error("Error al traer los datos");
