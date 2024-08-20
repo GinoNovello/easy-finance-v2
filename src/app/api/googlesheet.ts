@@ -1,46 +1,44 @@
 const googleApi = {
   transaccion: {
-    list: async (name: string): Promise<GoogleSheetResponse[]> => {
+    list: async (name: string): Promise<GoogleSheetResponse> => {
       try {
         const response = await fetch(name, { next: { revalidate: 6 } });
         const text = await response.text();
 
-        // Verifica si el texto está en el formato esperado
-        if (!text.includes("\t")) {
-          console.error("Data does not seem to be tab-separated.");
-          return [];
-        }
-
         const rows = text.trim().split("\n").slice(1);
 
-        const result = rows.map((row): GoogleSheetResponse | null => {
-          const columns = row.split("\t");
+        const expense = rows
+          .map((row): ExpenseData => {
+            const columns = row.split("\t");
 
-          if (columns.length < 6) {
-            console.error("No tenes las columnas necesarias:", row);
-            return null;
-          }
+            const [fecha, gasto, tipo] = columns;
 
-          const [fecha, gasto, tipo, , fechaIngr, ingreso, tipoIngr] = columns;
-          // console.log(fechaIngr, ingreso, tipoIngr);
+            return {
+              fecha,
+              gasto: parseFloat(gasto),
+              tipo,
+            };
+          })
+          .filter((item) => !isNaN(item.gasto));
+        const income = rows
+          .map((row): IncomeData => {
+            const columns = row.split("\t");
+            const [fechaIngr, ingreso, tipoIngr] = columns.slice(4, 7);
 
-          return {
-            fecha,
-            gasto: parseFloat(gasto),
-            tipo,
-            fechaIngr,
-            ingreso: parseFloat(ingreso),
-            tipoIngr,
-          };
-        });
-
-        // Filtrar filas nulas y retornar
-        return result.filter(
-          (item): item is GoogleSheetResponse => item !== null,
-        );
+            return {
+              fechaIngr,
+              ingreso: parseFloat(ingreso),
+              tipoIngr,
+            };
+          })
+          .filter((item) => !isNaN(item.ingreso));
+        return {
+          expense,
+          income,
+        };
       } catch (error) {
         console.error("Error fetching data from Google Sheets:", error);
-        return [];
+        return { expense: [], income: [] };
       }
     },
   },
