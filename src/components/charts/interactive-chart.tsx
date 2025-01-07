@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { compareAsc, parse } from "date-fns";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { useState } from "react";
 import {
@@ -16,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/src/components/ui/chart";
+import { GoogleSheetResponse } from "@/src/types/googlesheet/types";
 
 const chartConfig = {
   monto: {
@@ -32,36 +34,48 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface Props {
-  data: any[];
+  data: GoogleSheetResponse;
 }
 
 export function InteractiveChart({ data }: Props) {
   const [activeChart, setActiveChart] =
     useState<keyof typeof chartConfig>("income");
 
-  const expensesData = data.map(({ fecha, gasto, tipo }) => ({
-    fecha,
-    gasto,
-    tipo,
-  }));
-  const incomeData = data.map(({ fechaIngr, ingreso, tipoIngr }) => ({
-    fechaIngr,
-    ingreso,
-    tipoIngr,
-  }));
+  const total = React.useMemo(() => {
+    const parseDate = (date: string) => {
+      return parse(date, "dd/MM/yyyy", new Date());
+    };
+    const fecha = data.expense
+      .map((item) => ({
+        fecha: parseDate(item.fecha),
+        fechaOriginal: item.fecha,
+        gasto: item.gasto,
+      }))
+      .sort((a, b) => compareAsc(a.fecha, b.fecha))
+      .map((item) => ({
+        fecha: item.fechaOriginal,
+        gasto: item.gasto,
+      }));
 
-  //   const total = React.useMemo(
-  //     () => ({
-  //       desktop: chartData.reduce((acc, curr) => acc + curr.desktop, 0),
-  //       mobile: chartData.reduce((acc, curr) => acc + curr.mobile, 0),
-  //     }),
-  //     [],
-  //   );
+    const fechaIngr = data.income
+      .map((item) => ({
+        fecha: parseDate(item.fechaIngr),
+        fechaOriginal: item.fechaIngr,
+        ingreso: item.ingreso,
+      }))
+      .sort((a, b) => compareAsc(a.fecha, b.fecha))
+      .map((item) => ({
+        fecha: item.fechaOriginal,
+        ingreso: item.ingreso,
+      }));
 
-  const total = {
-    income: incomeData.reduce((acc, curr) => acc + curr.ingreso, 0),
-    expense: expensesData.reduce((acc, curr) => acc + curr.gasto, 0),
-  };
+    return {
+      income: data.income.reduce((acc, curr) => acc + (curr.ingreso || 0), 0),
+      expense: data.expense.reduce((acc, curr) => acc + (curr.gasto || 0), 0),
+      fecha: fecha,
+      fechaIngr: fechaIngr,
+    };
+  }, []);
 
   return (
     <Card>
@@ -101,7 +115,7 @@ export function InteractiveChart({ data }: Props) {
         >
           <BarChart
             accessibilityLayer
-            data={activeChart === "income" ? incomeData : expensesData}
+            data={activeChart === "income" ? total.fechaIngr : total.fecha}
             margin={{
               left: 12,
               right: 12,
@@ -109,52 +123,37 @@ export function InteractiveChart({ data }: Props) {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey={activeChart === "income" ? "fechaIngr" : "fecha"}
+              dataKey="fecha"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
                 const [day, month, year] = value.split("/");
-
                 const [dayInt, monthInt, yearInt] = [
                   parseInt(day),
                   parseInt(month) - 1,
                   parseInt(year),
                 ];
                 const date = new Date(yearInt, monthInt, dayInt);
-
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                 });
               }}
-              //   tickFormatter={(value) => {
-              //     console.log(value);
-              //     const valueFiltered = value.split;
-              //     const date = new Date(valueFiltered);
-              //     console.log(date);
-
-              //     return date.toLocaleDateString("en-US", {
-              //       month: "short",
-              //       day: "numeric",
-              //    });
-              //    }}
             />
+
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  className="w-[250px]"
-                  nameKey="monto"
+                  className="w-[150px]"
                   labelFormatter={(value) => {
                     const [day, month, year] = value.split("/");
-                    const [dayInt, monthInt, yearInt] = [
-                      parseInt(day),
-                      parseInt(month) - 1,
+                    const date = new Date(
                       parseInt(year),
-                    ];
-                    const date = new Date(yearInt, monthInt, dayInt);
-
+                      parseInt(month) - 1,
+                      parseInt(day),
+                    );
                     return date.toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",

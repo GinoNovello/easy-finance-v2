@@ -1,3 +1,5 @@
+import { GoogleSheetResponse } from "@/src/types/googlesheet/types";
+
 const googleApi = {
   transaccion: {
     list: async (name: string): Promise<GoogleSheetResponse> => {

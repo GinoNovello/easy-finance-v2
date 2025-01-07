@@ -67,7 +67,7 @@ export function Charts({ incomeData, expensesData }: Props) {
   } satisfies ChartConfig;
 
   return (
-    <div className="flex gap-4">
+    <div className="flex items-center justify-center pt-2 gap-4">
       <ChartContainer config={chartExpenseConfig} className="flex w-96">
         <BarChart accessibilityLayer data={dataByExpenses}>
           <XAxis

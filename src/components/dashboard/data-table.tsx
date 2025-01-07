@@ -21,6 +21,11 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import {
+  FinanceOptions,
+  FinanceColumns,
+  FinanceData,
+} from "@/src/types/googlesheet/types";
 
 type ColumnSort = {
   id: string;
@@ -28,26 +33,22 @@ type ColumnSort = {
 };
 type SortingState = ColumnSort[];
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps {
+  columns: FinanceColumns;
+  data: FinanceData;
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable({ columns, data }: DataTableProps) {
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
     pageSize: 6, //default page size
   });
-
+  const [tipoGasto, setTipoGasto] = useState<FinanceOptions>("income");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [search, setSearch] = useState("");
-
   const table = useReactTable({
-    data,
-    columns,
+    data: data[tipoGasto] as any[], // Necesario para manejar ambos tipos
+    columns: columns[tipoGasto] as ColumnDef<any>[], // Necesario para manejar ambos tipos
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -64,12 +65,30 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col w-full gap-2">
-      <Input
-        className="max-w-56 focus-visible:border-gray-400 border-gray-600 focus-visible:border rounded-md bg-secondary"
-        id="searchTable"
-        placeholder="Buscar en la tabla..."
-        onChange={(event) => setSearch(event.currentTarget.value)}
-      />
+      <div className="flex justify-between items-center w-full">
+        <Input
+          className="max-w-56 focus-visible:border-gray-400 border-gray-600 focus-visible:border rounded-md bg-secondary"
+          id="searchTable"
+          placeholder="Buscar en la tabla..."
+          onChange={(event) => setSearch(event.currentTarget.value)}
+        />
+        <div className="text-end flex justify-center items-center gap-2">
+          <Button
+            variant="default"
+            onClick={() => setTipoGasto("expense")}
+            data-state={tipoGasto === "expense" && "selected"}
+          >
+            Gastos
+          </Button>
+          <Button
+            variant="default"
+            onClick={() => setTipoGasto("income")}
+            data-state={tipoGasto === "income" && "selected"}
+          >
+            Ingresos
+          </Button>
+        </div>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -111,7 +130,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns[tipoGasto].length}
                   className="h-24 text-center"
                 >
                   No results.

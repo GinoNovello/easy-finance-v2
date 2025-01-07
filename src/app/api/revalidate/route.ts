@@ -1,8 +1,7 @@
- 
-import { revalidateTag } from 'next/cache'
- 
-export async function GET() {
-  revalidateTag('transaccion')
+import { revalidateTag } from "next/cache";
 
-  return Response.json({revalidated: true})
+export async function GET() {
+  revalidateTag("transaccion");
+
+  return Response.json({ revalidated: true });
 }
