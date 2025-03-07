@@ -26,10 +26,7 @@ export default function RootLayout({
           inter.className,
         )}
       >
-        <Providers>
-          {children}
-          {/* <Footer /> */}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

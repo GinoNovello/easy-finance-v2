@@ -7,21 +7,28 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Icons } from "../ui/icons";
+import { Input } from "../ui/input";
+import { ThemeSwitch } from "../settings/theme-switch";
 
 export function UserAuthForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [sheetUrl, setSheetUrl] = useState(false);
+  const [nameFocused, setNameFocused] = useState(false);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<AuthValues>({
     resolver: zodResolver(authSchema),
   });
+
+  const sheetNameValue = watch("sheetName");
+  const sheetUrlValue = watch("sheetUrl");
 
   const onSubmit = async (values: AuthValues) => {
     setIsLoading(true);
@@ -41,22 +48,29 @@ export function UserAuthForm() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <span className="text-2xl pt-12 font-bold text-primary">LOGIN</span>
+      <span className="text-2xl pt-12 font-bold">LOGIN</span>
       <div className={cn("grid gap-6 rounded-lg p-5 pt-7")}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-14">
-            <div className="grid gap-2 justify-center items-center ">
-              <Label className="sr-only" htmlFor="email">
-                Email
+            <div className="relative w-full">
+              <Label
+                className={cn(
+                  nameFocused || sheetNameValue
+                    ? "-translate-y-5 bg-background px-1 text-xs"
+                    : "",
+                  "absolute left-3 top-3 text-primary transition-all duration-200",
+                )}
+                htmlFor="sheetName"
+              >
+                Nombre
               </Label>
               <Input
                 {...register("sheetName")}
                 id="sheetName"
                 required
-                className="text-green-300 min-w-full"
-                placeholder="Nombre de la tabla"
-                autoCapitalize="none"
-                autoCorrect="off"
+                className="min-w-full"
+                onBlur={() => setNameFocused(false)}
+                onFocus={() => setNameFocused(true)}
                 disabled={isLoading}
               />
               {errors.sheetName && (
@@ -66,16 +80,25 @@ export function UserAuthForm() {
               )}
             </div>
             <div className="grid gap-2 justify-center items-center">
-              <div className="grid gap-2 justify-center items-center ">
-                <Label className="sr-only" htmlFor="email"></Label>
+              <div className="relative w-full">
+                <Label
+                  className={cn(
+                    sheetUrl || sheetUrlValue
+                      ? "-translate-y-5 bg-background px-1 text-xs"
+                      : "",
+                    "absolute left-3 top-3 text-primary transition-all duration-200",
+                  )}
+                  htmlFor="sheetUrl"
+                >
+                  URL spreadsheet.tsv
+                </Label>
                 <Input
                   {...register("sheetUrl")}
                   id="sheetUrl"
-                  className="text-green-300 min-w-full"
+                  className="min-w-full"
                   required
-                  placeholder="URL spreadsheet.tsv"
-                  autoCapitalize="none"
-                  autoCorrect="off"
+                  onBlur={() => setSheetUrl(false)}
+                  onFocus={() => setSheetUrl(true)}
                   disabled={isLoading}
                 />
               </div>
@@ -96,6 +119,7 @@ export function UserAuthForm() {
         <div className="relative">
           <div className="absolute inset-0 flex items-center"></div>
         </div>
+        <ThemeSwitch />
       </div>
     </div>
   );

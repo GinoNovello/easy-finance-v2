@@ -3,9 +3,9 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
+import { Moon, Sun } from "lucide-react";
 
-export function ThemeSwitcher() {
+export function ThemeSwitch() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -16,15 +16,14 @@ export function ThemeSwitcher() {
   if (!mounted) return null;
 
   return (
-    <div className="flex items-center justify-end space-x-2">
+    <div className="flex items-center space-x-2 justify-end">
+      <Sun className="h-4 w-4" />
       <Switch
-        type="button"
         id="theme-switcher"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        checked={theme === "dark"}
+        onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
-      <Label htmlFor="theme-switcher" className="capitalize">
-        {theme}
-      </Label>
+      <Moon className="h-4 w-4" />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { MonthProgress } from "@/src/components/settings/month-progress";
-import { ThemeSwitcher } from "@/src/components/settings/theme-provider";
+import { ThemeSwitch } from "@/src/components/settings/theme-switch";
 import {
   Table,
   TableBody,
@@ -22,7 +22,7 @@ export default function SettingsPage() {
           <TableRow>
             <TableCell className="font-medium">Theme</TableCell>
             <TableCell className="text-right">
-              <ThemeSwitcher />
+              <ThemeSwitch />
             </TableCell>
           </TableRow>
         </TableBody>
