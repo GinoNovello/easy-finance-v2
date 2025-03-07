@@ -18,7 +18,7 @@ export function Sidebar({ children }: SidebarProps) {
 
   return (
     <aside ref={sidebarRef} className="h-screen">
-      <nav className="h-full flex flex-col bg-neutral-950 shadow-sm">
+      <nav className="h-full flex flex-col bg-neutral-950 shadow-xs">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div
             className={cn(
