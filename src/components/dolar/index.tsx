@@ -36,10 +36,9 @@ export default async function Dolar({ searchParams }: Props) {
   }
 
   return (
-    <section className="flex grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-between">
-      <Combobox />
-      <DolarTable dolarValues={dolarValues} />
+    <section className="flex justify-center items-center gap-4 relative">
       <DolarCalculator dolarValues={dolarValues} country={country} />
+      <DolarTable dolarValues={dolarValues} />
     </section>
   );
 }

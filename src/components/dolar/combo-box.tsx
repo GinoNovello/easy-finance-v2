@@ -75,7 +75,7 @@ export function Combobox() {
   }, [country]);
 
   return (
-    <div className="flex">
+    <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="z-10">
           <Button
@@ -113,6 +113,6 @@ export function Combobox() {
           </Command>
         </PopoverContent>
       </Popover>
-    </div>
+    </>
   );
 }

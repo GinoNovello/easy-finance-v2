@@ -14,10 +14,10 @@ interface Props {
 
 export default async function DolarTable({ dolarValues }: Props) {
   return (
-    <div className="flex justify-between gap-4 flex-col">
-      <h2>Cotización dolar</h2>
+    <div className="flex justify-between w-full h-full gap-4 flex-col">
       <Table className="w-full">
         <TableHeader>
+          <h2>Cotización dolar</h2>
           <TableRow>
             <TableHead className="w-1/3 rounded-tl-md">Dolar</TableHead>
             <TableHead className="w-1/3">Compra</TableHead>

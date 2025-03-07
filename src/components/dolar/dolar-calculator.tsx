@@ -5,6 +5,7 @@ import { Label } from "@/src/components/ui/label";
 import { cn } from "@/src/lib/utils";
 import { ArrowRightLeft } from "lucide-react";
 import { useState } from "react";
+import { Combobox } from "./combo-box";
 
 interface Props {
   dolarValues: DolarResponse[];
@@ -47,10 +48,12 @@ export default function DolarCalculator({
   };
 
   return (
-    <section className="flex flex-col items-center border rounded-md p-10 absolute">
-      <h2>Calcular</h2>
-      <div className="flex w-full items-end h-fit gap-4 relative">
-        <div className={cn("flex flex-col gap-2 order-1 text-green-300")}>
+    <section className="flex flex-col items-center justify-center border rounded-md p-10 h-fit">
+      <div className="absolute top-5 left-0">
+        <Combobox />
+      </div>
+      <div className="flex w-full items-end h-fit gap-4 relative my-5">
+        <div className={cn("flex flex-col gap-2  text-green-300")}>
           <Label className="uppercase">{dolarFirst ? "USD" : country}</Label>
           <Input
             id="usd"
@@ -59,7 +62,13 @@ export default function DolarCalculator({
             onChange={handleExchange}
           />
         </div>
-        <div className={cn("flex flex-col gap-2 order-3")}>
+        <div className="flex flex-col">
+          <h2>Calcular</h2>
+          <Button disabled variant="ghost" className="" onClick={handleSwap}>
+            <ArrowRightLeft />
+          </Button>
+        </div>
+        <div className={cn("flex flex-col gap-2 ")}>
           <Label className="uppercase text-green-100">
             {dolarFirst ? country : "USD"}
           </Label>
@@ -71,14 +80,6 @@ export default function DolarCalculator({
             onChange={handleExchange}
           />
         </div>
-        <Button
-          disabled
-          variant="ghost"
-          className="order-2"
-          onClick={handleSwap}
-        >
-          <ArrowRightLeft />
-        </Button>
       </div>
     </section>
   );
