@@ -17,8 +17,7 @@ export const authSchema = z.object({
       }
     },
     {
-      message:
-        "Debe ser una URL válida de docs.google.com con el formato especificado",
+      message: "Debe ser una URL válida",
     },
   ),
 });

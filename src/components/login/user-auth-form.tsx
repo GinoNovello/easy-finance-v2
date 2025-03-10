@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Icons } from "../ui/icons";
 import { Input } from "../ui/input";
-import { ThemeSwitch } from "../settings/theme-switch";
 
 export function UserAuthForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,7 +46,7 @@ export function UserAuthForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center border dark:border-gray-100 border-primary shadow-gray-900 dark:shadow-gray-500 shadow-lg w-full rounded">
       <span className="text-2xl pt-12 font-bold">LOGIN</span>
       <div className={cn("grid gap-6 rounded-lg p-5 pt-7")}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,7 +118,6 @@ export function UserAuthForm() {
         <div className="relative">
           <div className="absolute inset-0 flex items-center"></div>
         </div>
-        <ThemeSwitch />
       </div>
     </div>
   );

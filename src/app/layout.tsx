@@ -22,7 +22,8 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true}
         className={cn(
-          "overflow-x-hidden min-h-screen min-w-screen",
+          "overflow-hidden",
+          // min-h-screen min-w-screen - esto es lo que estaba antes
           inter.className,
         )}
       >
