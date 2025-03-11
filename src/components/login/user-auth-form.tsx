@@ -10,6 +10,15 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Icons } from "../ui/icons";
 import { Input } from "../ui/input";
+import { BorderBeam } from "../magicui/border-beam";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 export function UserAuthForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,14 +53,16 @@ export function UserAuthForm() {
     });
     router.push("/dashboard");
   };
-
   return (
-    <div className="flex flex-col items-center justify-center border dark:border-gray-100 border-primary shadow-gray-900 dark:shadow-gray-500 shadow-lg w-full rounded">
-      <span className="text-2xl pt-12 font-bold">LOGIN</span>
-      <div className={cn("grid gap-6 rounded-lg p-5 pt-7")}>
+    <Card className="relative overflow-hidden">
+      <CardHeader className="flex w-full items-center justify-center">
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Entra con la url correcta!</CardDescription>
+      </CardHeader>
+      <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-14">
-            <div className="relative w-full">
+            <div className="relative w-full gap-2">
               <Label
                 className={cn(
                   nameFocused || sheetNameValue
@@ -78,7 +89,7 @@ export function UserAuthForm() {
                 </h2>
               )}
             </div>
-            <div className="grid gap-2 justify-center items-center">
+            <div className="grid gap-2">
               <div className="relative w-full">
                 <Label
                   className={cn(
@@ -115,10 +126,13 @@ export function UserAuthForm() {
             </Button>
           </div>
         </form>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center"></div>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter>
+        <p className="dark:text-primary/45 text-primary/70 underline">
+          ¿No sabés cómo buscar la url?
+        </p>
+      </CardFooter>
+      <BorderBeam />
+    </Card>
   );
 }
