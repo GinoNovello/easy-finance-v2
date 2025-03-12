@@ -19,6 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import HeroVideoDialog from "../magicui/hero-video-dialog";
 
 export function UserAuthForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -128,11 +129,19 @@ export function UserAuthForm() {
         </form>
       </CardContent>
       <CardFooter>
-        <p className="dark:text-primary/45 text-primary/70 underline">
-          ¿No sabés cómo buscar la url?
-        </p>
+        <HeroVideoDialog
+          className="w-full"
+          animationStyle="top-in-bottom-out"
+          thumbnailSrc="/thumbnail.png"
+          videoSrc="/loginfaq.mp4"
+          trigger={
+            <a className="dark:text-primary/45 relative text-primary/70 underline">
+              ¿No sabés cómo buscar la url?
+            </a>
+          }
+        />
       </CardFooter>
-      <BorderBeam />
+      <BorderBeam size={250} duration={20} />
     </Card>
   );
 }
