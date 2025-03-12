@@ -63,7 +63,7 @@ export function ThemeSwitch({
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div className={cn("flex items-center justify-end space-x-2", className)}>
       <Sun className="h-4 w-4" />
       <Switch
         id="theme-switcher"

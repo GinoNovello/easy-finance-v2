@@ -48,8 +48,8 @@ export default function DolarCalculator({
   };
 
   return (
-    <section className="flex flex-col items-center justify-center border rounded-md p-10 h-fit">
-      <div className="absolute top-5 left-0">
+    <section className="flex flex-col items-center relative justify-center border rounded-md p-10 h-fit">
+      <div className="absolute top-0 left-0">
         <Combobox />
       </div>
       <div className="flex w-full items-end h-fit gap-4 relative my-5">
